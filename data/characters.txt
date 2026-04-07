@@ -1,0 +1,15 @@
+Naruto,Naruto,Ataque,120,25,10
+Eren,Shingeki no Kyojin,Balanceado,140,22,15
+Lelouch,Code Geass,Estratega,90,30,8
+Edward,Fullmetal Alchemist,Balanceado,110,24,12
+Thorfinn,Vinland Saga,Ataque,100,26,10
+Luffy,One Piece,Ataque,130,27,12
+Gon,Hunter x Hunter,Balanceado,115,25,11
+Senku,Dr. Stone,Defensa,95,18,14
+Yuji,Jujutsu Kaisen,Balanceado,120,26,13
+Shinji,Evangelion,Defensa,105,22,16
+Goku,Dragon Ball Z,Ataque,150,30,12
+Armin,Shingeki no Kyojin,Estratega,100,20,14
+Killua,Hunter x Hunter,Ataque,110,28,10
+Mikasa,Shingeki no Kyojin,Balanceado,125,27,14
+Alphonse,Fullmetal Alchemist,Defensa,150,18,22

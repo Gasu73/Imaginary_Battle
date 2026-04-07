@@ -1,5 +1,7 @@
 from tkinter import *
 from utils.helpers import cargar_img, setup_bg, show_frame
+from gui.character_select import create_character_select_screen
+
 
 def create_main_screen(container, frames):
     frame = Frame(container)
@@ -11,15 +13,37 @@ def create_main_screen(container, frames):
 
     setup_bg(canvas, "main_bg.png")
 
-    btn_img = cargar_img("buttons","next_btn.png", size=(160, 90))
-    btn = Button(canvas, image=btn_img,
+    btn_start_img = cargar_img("buttons","start_btn.png", size=(280, 70))
+    btn_start = Button(canvas, image=btn_start_img,
                  command=lambda: show_frame(frames, "lobby"))
-    btn.image = btn_img
-    btn_id = canvas.create_window(0, 0, window=btn)
+    btn_start.image = btn_start_img
+    start_id = canvas.create_window(0, 0, window=btn_start, anchor="center")
 
-    canvas.bind("<Configure>",
-                lambda e: canvas.coords(btn_id, e.width*0.9, e.height*0.6),
-                add="+")
+    btn_characters_img = cargar_img("buttons","personajes_btn.png", size=(280, 190))
+    btn_characters = Button(canvas, image=btn_characters_img,
+                 command=lambda: show_frame(frames, "choise"))
+    btn_characters.image = btn_characters_img
+    characters_id = canvas.create_window(0, 0, window=btn_characters)
+
+    btn_avatar_img = cargar_img("buttons","avatar_btn.png", size=(280, 190))
+    btn_avatar = Button(canvas, image=btn_avatar_img,
+                 command=lambda: show_frame(frames, "lobby"))
+    btn_avatar.image = btn_avatar_img
+    avatar_id = canvas.create_window(0, 0, window=btn_avatar)
+    
+
+    def resize_btns(event):
+        # centro horizontal
+        center_x = event.width * 0.5
+        
+        # fila superior (2 botones)
+        canvas.coords(characters_id, center_x - 200, event.height * 0.55)
+        canvas.coords(avatar_id, center_x + 200, event.height * 0.55)
+
+        # botón inferior centrado
+        canvas.coords(start_id, center_x, event.height * 0.75)
+
+    canvas.bind("<Configure>", resize_btns, add="+")
 
 
 def create_lobby_screen(container, frames):
