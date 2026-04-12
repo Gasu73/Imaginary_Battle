@@ -1,5 +1,32 @@
 import os
 from PIL import Image, ImageTk
+global nombreG, personajesG, avatarG
+nombreG=""
+personajesG=[]
+avatarG=-1
+
+def datos_jugador(val = "", nombre="", personajes=[], avatar=-1,):
+    global nombreG, personajesG, avatarG
+    match val:
+        case "n":
+            return nombreG
+        case "p":
+            return personajesG
+        case "n":
+            return avatarG
+    if nombre !="":
+        nombreG = nombre
+        print(nombreG)
+    if personajes != []:
+        personajesG = personajes
+        print(personajesG)
+    if avatar != -1:
+        avatarG = avatar
+        print(avatarG)
+    return
+
+
+
 
 def cargar_img(carpeta, nombre, size=None):
     ruta = os.path.join('assets', carpeta, nombre)

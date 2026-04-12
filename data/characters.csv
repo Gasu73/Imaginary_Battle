@@ -1,0 +1,16 @@
+id,nombre,serie,tipo,vida,ataque,defensa
+1,Naruto,Naruto,Ataque,120,25,10
+2,Eren,Shingeki no Kyojin,Balanceado,140,22,15
+3,Lelouch,Code Geass,Estratega,90,30,8
+4,Edward,Fullmetal Alchemist,Balanceado,110,24,12
+5,Thorfinn,Vinland Saga,Ataque,100,26,10
+6,Luffy,One Piece,Ataque,130,27,12
+7,Gon,Hunter x Hunter,Balanceado,115,25,11
+8,Senku,Dr. Stone,Defensa,95,18,14
+9,Yuji,Jujutsu Kaisen,Balanceado,120,26,13
+10,Shinji,Evangelion,Defensa,105,22,16
+11,Goku,Dragon Ball Z,Ataque,150,30,12
+12,Armin,Shingeki no Kyojin,Estratega,100,20,14
+13,Killua,Hunter x Hunter,Ataque,110,28,10
+14,Mikasa,Shingeki no Kyojin,Balanceado,125,27,14
+15,Alphonse,Fullmetal Alchemist,Defensa,150,18,22
