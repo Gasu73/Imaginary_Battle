@@ -1,5 +1,5 @@
 from tkinter import *
-from utils.helpers import cargar_img, setup_bg, show_frame, datos_jugador
+from utils.helpers import cargar_img, setup_bg, show_frame, datos_jugador, personajes
 import csv
 
 def create_character_select_screen(container, frames):
@@ -12,30 +12,7 @@ def create_character_select_screen(container, frames):
 
 
     # Extraer los datos de personajes del csv
-    characters = []
-    with open("data/characters.csv", newline="", encoding="utf-8") as archivo:
-        lector = csv.DictReader(archivo)
-        
-        def extraer_datos():
-            try:
-                fila = next(lector)
-
-                personaje = {
-                    "id": int(fila["id"]),
-                    "nombre": fila["nombre"],
-                    "serie": fila["serie"],
-                    "tipo": fila["tipo"],
-                    "vida": int(fila["vida"]),
-                    "ataque": int(fila["ataque"]),
-                    "defensa": int(fila["defensa"])
-                }
-                characters.append(personaje)
-                extraer_datos()
-            except:
-                return
-            
-        extraer_datos()
-
+    characters = personajes()
 
     # boton info
     btn_info_img = cargar_img("buttons","info.png", size=(100, 100))
@@ -59,7 +36,10 @@ def create_character_select_screen(container, frames):
         anchor="center",
         font=("Arial", 14),
         fill="black" )
- 
+    
+    btn_remove_img = cargar_img("buttons","quitar_btn.png", size=(280, 80)) 
+    btn_select_img = cargar_img("buttons","select_btn.png", size=(280, 80))
+    btn_notselect_img = cargar_img("buttons","notselect_btn.png", size=(280, 80))
 
     #variables
     global char_preview, btn_id_preview, char_select
@@ -76,8 +56,6 @@ def create_character_select_screen(container, frames):
         if (char_preview in char_select):
             char_select.remove(char_preview)
             btn_id_preview.config(highlightthickness=0)
-
-            btn_select_img = cargar_img("buttons","select_btn.png", size=(280, 80))
             canvas.itemconfig(select_id, image=btn_select_img)
             return
         
@@ -85,7 +63,6 @@ def create_character_select_screen(container, frames):
             char_select.append(char_preview)
             btn_id_preview.config(highlightthickness=7)
 
-            btn_remove_img = cargar_img("buttons","quitar_btn.png", size=(280, 80))
             canvas.itemconfig(select_id, image=btn_remove_img)
             datos_jugador("", "", char_select)
 
@@ -95,7 +72,7 @@ def create_character_select_screen(container, frames):
         
 
 
-    canvas.images = [btn_prev_img, btn_info_img]
+    canvas.images = [btn_prev_img, btn_info_img, btn_notselect_img, btn_remove_img, btn_notselect_img]
 
     canvas.tag_bind(prev_id, "<Button-1>", lambda e: show_frame(frames, "main"))
     canvas.tag_bind(select_id, "<Button-1>", clic_select)
@@ -128,15 +105,12 @@ def create_character_select_screen(container, frames):
         canvas.itemconfig(preview_id, image=preview_img)
 
         if index in char_select:
-            btn_remove_img = cargar_img("buttons","quitar_btn.png", size=(280, 80))
             canvas.itemconfig(select_id, image=btn_remove_img)
 
         elif not index in char_select and len(char_select)< 3:
-            btn_select_img = cargar_img("buttons","select_btn.png", size=(280, 80))
             canvas.itemconfig(select_id, image=btn_select_img)
-        
+    
         else:
-            btn_notselect_img = cargar_img("buttons","notselect_btn.png", size=(280, 80))
             canvas.itemconfig(select_id, image=btn_notselect_img)
 
 
@@ -302,8 +276,6 @@ def create_avatar_select_screen(container, frames):
             canvas.coords(cuadrado_id, x*1.5, y)
         elif i == 3:
             canvas.coords(cuadrado_id, x, y)
-
-        
 
 
 

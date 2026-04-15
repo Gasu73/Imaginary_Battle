@@ -1,9 +1,12 @@
 import os
 from PIL import Image, ImageTk
-global nombreG, personajesG, avatarG
+import csv
+
+global nombreG, personajesG, avatarG, characters
 nombreG=""
 personajesG=[]
 avatarG=-1
+characters = []
 
 def datos_jugador(val = "", nombre="", personajes=[], avatar=-1,):
     global nombreG, personajesG, avatarG
@@ -12,7 +15,7 @@ def datos_jugador(val = "", nombre="", personajes=[], avatar=-1,):
             return nombreG
         case "p":
             return personajesG
-        case "n":
+        case "a":
             return avatarG
     if nombre !="":
         nombreG = nombre
@@ -24,6 +27,35 @@ def datos_jugador(val = "", nombre="", personajes=[], avatar=-1,):
         avatarG = avatar
         print(avatarG)
     return
+
+def extraer_personajes():
+    with open("data/characters.csv", newline="", encoding="utf-8") as archivo:
+        lector = csv.DictReader(archivo)
+        
+        def extraer_datos():
+            try:
+                fila = next(lector)
+
+                personaje = {
+                    "id": int(fila["id"]),
+                    "nombre": fila["nombre"],
+                    "serie": fila["serie"],
+                    "tipo": fila["tipo"],
+                    "vida": int(fila["vida"]),
+                    "ataque": int(fila["ataque"]),
+                    "defensa": int(fila["defensa"])
+                }
+                characters.append(personaje)
+                extraer_datos()
+            except:
+                return
+            
+        extraer_datos()
+
+def personajes(n = -1):
+    if n == -1:
+        return characters
+    return characters[n]
 
 
 
