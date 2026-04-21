@@ -15,10 +15,11 @@ container.pack(fill="both", expand=True)
 
 # Crear pantallas
 
+extraer_personajes()
 create_character_select_screen(container, frames)
 create_avatar_select_screen(container, frames)
 create_main_screen(container, frames)
-extraer_personajes()
+
 
 show_frame(frames, "main")
 root.mainloop()

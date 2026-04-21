@@ -14,3 +14,8 @@ id,nombre,serie,tipo,vida,ataque,defensa
 13,Killua,Hunter x Hunter,Ataque,110,28,10
 14,Mikasa,Shingeki no Kyojin,Balanceado,125,27,14
 15,Alphonse,Fullmetal Alchemist,Defensa,150,18,22
+16,Dio,JoJo's Bizarre Adventure,Ataque,130,28,15
+17,Sukuna,Jujutsu Kaisen,Ataque,150,32,18
+18,Father,Fullmetal Alchemist,Defensa,140,30,20
+19,Reiner,Shingeki no Kyojin,Defensa,160,24,25
+20,Meruem,Hunter x Hunter,Balanceado,180,35,22

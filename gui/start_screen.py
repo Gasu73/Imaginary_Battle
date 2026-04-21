@@ -1,6 +1,8 @@
 from tkinter import *
-from utils.helpers import cargar_img, setup_bg, show_frame, datos_jugador, personajes
+from utils.helpers import cargar_img, setup_bg, show_frame, escribir_datos
 from gui.character_select import create_character_select_screen
+from gui.map_fight_area import create_map_screen
+
 
 
 def create_main_screen(container, frames):
@@ -10,6 +12,8 @@ def create_main_screen(container, frames):
     canvas = Canvas(frame)
     canvas.pack(fill="both", expand=True)
     setup_bg(canvas, "main_bg.png")
+
+    
 
     # Label entrada del nombre
     Label_ingrese_img = cargar_img("titles", "ingrese_title.png", size=(700, 90))
@@ -33,9 +37,13 @@ def create_main_screen(container, frames):
         global after_id
         texto_invalido = ""
 
-        char = list(datos_jugador("p"))
+        from utils.helpers import personajesElegidosG, avatarElegidoG
+
+        char = personajesElegidosG
+        print("per", char)
         nombre = str(E_nombre.get())
-        avatar = int(datos_jugador("a"))
+        avatar = avatarElegidoG
+        print("avatar", avatar)
 
         if (len(char) != 3):
             texto_invalido = "|Seleccione 3 personajes|"
@@ -45,7 +53,7 @@ def create_main_screen(container, frames):
             texto_invalido = texto_invalido + "|Ingrese un nombre valido|"
 
         if (len(char) == 3 and avatar != -1 and len(nombre) >= 3):
-            datos_jugador("",nombre)
+            escribir_datos("n", nombre)
             create_lobby_screen(container, frames)
             show_frame(frames, "lobby")
             return
@@ -122,6 +130,8 @@ def create_main_screen(container, frames):
 
 
 def create_lobby_screen(container, frames):
+    from utils.helpers import personajesElegidosG, avatarElegidoG, nombreG
+
     frame = Frame(container)
     frames["lobby"] = frame
     frame.place(relwidth=1, relheight=1)
@@ -129,16 +139,18 @@ def create_lobby_screen(container, frames):
     canvas.pack(fill="both", expand=True)
     setup_bg(canvas, "lobby_bg.png")
 
+    create_map_screen(container, frames)
+
 
     select_char = []
-    nombre = datos_jugador("n")
-    avatar = datos_jugador("a")
+    nombre = nombreG
+    avatar = avatarElegidoG
 
     def selectC(i):
         if i == 3:
             return
         
-        select_char.append(datos_jugador("p")[i])
+        select_char.append(personajesElegidosG[i])
         return selectC(i+1)
     selectC(0)
     
@@ -157,11 +169,11 @@ def create_lobby_screen(container, frames):
     info_id = canvas.create_image(0 , 0, image=btn_info_img)
     
     # boton mapa
-    btn_mapa_img = cargar_img("buttons","map_btn.png", size=(150, 100))
+    btn_mapa_img = cargar_img("buttons","map_btn.png", size=(200, 120))
     mapa_id = canvas.create_image(0 , 0, image=btn_mapa_img, anchor="center")
 
     #boton regresar
-    btn_regresar_img = cargar_img("buttons","previous_btn.png", size=(150, 100))
+    btn_regresar_img = cargar_img("buttons","previous_btn.png", size=(200, 120))
     regresar_id = canvas.create_image(0 , 0, image=btn_regresar_img, anchor="center")
 
 
@@ -177,7 +189,7 @@ def create_lobby_screen(container, frames):
 
 
         #boton regresar
-        btn_char_img = cargar_img("characters",f"c_{select_char[i]+1:03}.png", size=(150, 150))
+        btn_char_img = cargar_img("characters",f"c_{select_char[i]+1:03}.png", size=(230, 230))
         print(select_char[i]+1)
         char_id = canvas.create_image(0 , 0, image=btn_char_img, anchor="center")
 
@@ -188,6 +200,15 @@ def create_lobby_screen(container, frames):
         return crear_char(i+1)   #recursión
     
     crear_char(0)
+
+    def click_info(event):
+        print("info presionado")
+
+    canvas.tag_bind(info_id, "<Button-1>", click_info)
+    canvas.tag_bind(mapa_id, "<Button-1>", lambda e: show_frame(frames, "map"))
+    canvas.tag_bind(regresar_id, "<Button-1>", lambda e: show_frame(frames, "main"))
+
+
 
 
 

@@ -1,5 +1,5 @@
 from tkinter import *
-from utils.helpers import cargar_img, setup_bg, show_frame, datos_jugador, personajes
+from utils.helpers import cargar_img, setup_bg, show_frame, escribir_datos, charactersDataG
 import csv
 
 def create_character_select_screen(container, frames):
@@ -11,8 +11,8 @@ def create_character_select_screen(container, frames):
     setup_bg(canvas, "main_bg.png")
 
 
-    # Extraer los datos de personajes del csv
-    characters = personajes()
+    # traer los datos de los personajes
+    characters = charactersDataG
 
     # boton info
     btn_info_img = cargar_img("buttons","info.png", size=(100, 100))
@@ -64,7 +64,7 @@ def create_character_select_screen(container, frames):
             btn_id_preview.config(highlightthickness=7)
 
             canvas.itemconfig(select_id, image=btn_remove_img)
-            datos_jugador("", "", char_select)
+            escribir_datos("p", char_select)
 
             return
         
@@ -90,12 +90,12 @@ def create_character_select_screen(container, frames):
         canvas.itemconfig(
             info_text,
             text=(
-                f"Personaje: {characters[index]["nombre"]}\n"
-                f"Serie: {characters[index]["serie"]}\n"
-                f"Tipo: {characters[index]["tipo"]}\n"
-                f"HP: {characters[index]["vida"]}\n"
-                f"ATK: {characters[index]["ataque"]}\n"
-                f"DEF: {characters[index]["defensa"]}"
+                f"Personaje: {characters[index]['nombre']}\n"
+                f"Serie: {characters[index]['serie']}\n"
+                f"Tipo: {characters[index]['tipo']}\n"
+                f"HP: {characters[index]['vida']}\n"
+                f"ATK: {characters[index]['ataque']}\n"
+                f"DEF: {characters[index]['defensa']}"
             )
         )
 
@@ -259,7 +259,7 @@ def create_avatar_select_screen(container, frames):
     def click_avatar(event, i):
         canvas.itemconfig(cuadrado_id, state="normal")
         global avatar_select
-        datos_jugador("", "", [], i)
+        escribir_datos("a", i)
         avatar_select = i
 
         # Obtener tamaño actual del canvas

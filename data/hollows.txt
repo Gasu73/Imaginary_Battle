@@ -1,5 +1,0 @@
-Dio,JoJo's Bizarre Adventure,Ataque,130,28,15
-Sukuna,Jujutsu Kaisen,Ataque,150,32,18
-Father,Fullmetal Alchemist,Defensa,140,30,20
-Reiner,Shingeki no Kyojin,Defensa,160,24,25
-Meruem,Hunter x Hunter,Balanceado,180,35,22

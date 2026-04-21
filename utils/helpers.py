@@ -2,37 +2,51 @@ import os
 from PIL import Image, ImageTk
 import csv
 
-global nombreG, personajesG, avatarG, characters
-nombreG=""
-personajesG=[]
-avatarG=-1
-characters = []
 
-def datos_jugador(val = "", nombre="", personajes=[], avatar=-1,):
-    global nombreG, personajesG, avatarG
+#variables globales del juego
+global nombreG, personajesElegidosG, avatarElegidoG, charactersDataG, NivelG, PersonajeAct
+PersonajeAct = -1
+EnemigoAct = -1
+NivelG = 1
+nombreG=""
+personajesElegidosG=[]
+vidapersonajes=[]
+avatarElegidoG=-1
+
+charactersDataG = []
+
+
+def escribir_datos(val = "", dato = any):
+    global nombreG, avatarElegidoG, personajesElegidosG, PersonajeAct
     match val:
         case "n":
-            return nombreG
+            nombreG = dato
+            print(nombreG)
+            return
         case "p":
-            return personajesG
+            personajesElegidosG = dato
+            print(personajesElegidosG)
+            return
         case "a":
-            return avatarG
-    if nombre !="":
-        nombreG = nombre
-        print(nombreG)
-    if personajes != []:
-        personajesG = personajes
-        print(personajesG)
-    if avatar != -1:
-        avatarG = avatar
-        print(avatarG)
+            avatarElegidoG = dato
+            print(avatarElegidoG)
+            return
+        case "pa":
+            PersonajeAct = dato
+            print(PersonajeAct)
+            return
+        
+    print("falta val")
     return
+
+
+
 
 def extraer_personajes():
     with open("data/characters.csv", newline="", encoding="utf-8") as archivo:
         lector = csv.DictReader(archivo)
         
-        def extraer_datos():
+        def extraer_chars():
             try:
                 fila = next(lector)
 
@@ -45,17 +59,12 @@ def extraer_personajes():
                     "ataque": int(fila["ataque"]),
                     "defensa": int(fila["defensa"])
                 }
-                characters.append(personaje)
-                extraer_datos()
+                charactersDataG.append(personaje)
+                extraer_chars()
             except:
                 return
+        extraer_chars()
             
-        extraer_datos()
-
-def personajes(n = -1):
-    if n == -1:
-        return characters
-    return characters[n]
 
 
 
