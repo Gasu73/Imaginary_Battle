@@ -220,7 +220,6 @@ def create_avatar_select_screen(container, frames):
     canvas.pack(fill="both", expand=True)
     setup_bg(canvas, "main_bg.png")
 
-    print("frame avatar")
 
     cuadrado_img = cargar_img("buttons", "cuadrado_rojo.png", (220, 220))
     cuadrado_id = canvas.create_image(0, 0, anchor="center", image=cuadrado_img, state="hidden")
