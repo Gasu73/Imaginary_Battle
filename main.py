@@ -1,5 +1,5 @@
 from tkinter import *
-from gui.start_screen import create_main_screen
+from gui.start_screen import create_main_screen, create_info_screen
 from gui.character_select import create_character_select_screen, create_avatar_select_screen
 from utils.helpers import show_frame, extraer_personajes
 
@@ -19,6 +19,7 @@ extraer_personajes()
 create_character_select_screen(container, frames)
 create_avatar_select_screen(container, frames)
 create_main_screen(container, frames)
+create_info_screen(container, frames)
 
 
 show_frame(frames, "main")

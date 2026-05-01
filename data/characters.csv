@@ -1,21 +1,21 @@
 id,nombre,serie,tipo,vida,ataque,defensa
-1,Naruto,Naruto,Ataque,120,25,10
-2,Eren,Shingeki no Kyojin,Balanceado,140,22,15
-3,Lelouch,Code Geass,Estratega,90,30,8
-4,Edward,Fullmetal Alchemist,Balanceado,110,24,12
-5,Thorfinn,Vinland Saga,Ataque,100,26,10
-6,Luffy,One Piece,Ataque,130,27,12
-7,Gon,Hunter x Hunter,Balanceado,115,25,11
-8,Senku,Dr. Stone,Defensa,95,18,14
-9,Yuji,Jujutsu Kaisen,Balanceado,120,26,13
-10,Shinji,Evangelion,Defensa,105,22,16
-11,Goku,Dragon Ball Z,Ataque,150,30,12
-12,Armin,Shingeki no Kyojin,Estratega,100,20,14
-13,Killua,Hunter x Hunter,Ataque,110,28,10
-14,Mikasa,Shingeki no Kyojin,Balanceado,125,27,14
-15,Alphonse,Fullmetal Alchemist,Defensa,150,18,22
-16,Dio,JoJo's Bizarre Adventure,Ataque,130,28,15
-17,Sukuna,Jujutsu Kaisen,Ataque,150,32,18
-18,Father,Fullmetal Alchemist,Defensa,140,30,20
-19,Reiner,Shingeki no Kyojin,Defensa,160,24,25
-20,Meruem,Hunter x Hunter,Balanceado,180,35,22
+1,Naruto,Naruto,Ataque,50,25,10
+2,Eren,Shingeki no Kyojin,Balanceado,70,22,15
+3,Lelouch,Code Geass,Estratega,200000,200000,1
+4,Edward,Fullmetal Alchemist,Balanceado,40,24,12
+5,Thorfinn,Vinland Saga,Ataque,30,26,10
+6,Luffy,One Piece,Ataque,60,27,12
+7,Gon,Hunter x Hunter,Balanceado,45,25,11
+8,Senku,Dr. Stone,Defensa,25,18,14
+9,Yuji,Jujutsu Kaisen,Balanceado,50,26,13
+10,Shinji,Evangelion,Defensa,35,22,16
+11,Goku,Dragon Ball Z,Ataque,80,30,12
+12,Armin,Shingeki no Kyojin,Estratega,30,20,14
+13,Killua,Hunter x Hunter,Ataque,40,28,10
+14,Mikasa,Shingeki no Kyojin,Balanceado,55,27,14
+15,Alphonse,Fullmetal Alchemist,Defensa,80,18,22
+16,Dio,JoJo's Bizarre Adventure,Ataque,6000,2800,15
+17,Sukuna,Jujutsu Kaisen,Ataque,80,32,18
+18,Father,Fullmetal Alchemist,Defensa,70,30,20
+19,Reiner,Shingeki no Kyojin,Defensa,90,24,25
+20,Meruem,Hunter x Hunter,Balanceado,110,35,22

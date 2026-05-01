@@ -4,7 +4,7 @@ import csv
 
 
 #variables globales del juego
-global nombreG, personajesElegidosG, avatarElegidoG, charactersDataG, NivelG, PersonajeAct
+global nombreG, personajesElegidosG, avatarElegidoG, charactersDataG, NivelG, PersonajeAct, back
 PersonajeAct = -1
 EnemigoAct = -1
 NivelG = 1
@@ -12,6 +12,7 @@ nombreG=""
 personajesElegidosG=[]
 vidapersonajes=[]
 avatarElegidoG=-1
+back_info = "main"
 
 charactersDataG = []
 

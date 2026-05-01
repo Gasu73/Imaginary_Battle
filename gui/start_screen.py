@@ -2,6 +2,8 @@ from tkinter import *
 from utils.helpers import cargar_img, setup_bg, show_frame, escribir_datos
 from gui.character_select import create_character_select_screen
 from gui.map_fight_area import create_map_screen
+import utils.helpers as helpers
+
 
 
 
@@ -94,13 +96,17 @@ def create_main_screen(container, frames):
 
 
     def click_info(event):
-        print("info presionado")
+        helpers.back_info = "main"
+        show_frame(frames, "info")
 
+
+    #Acciones del evento click
     canvas.tag_bind(info_id, "<Button-1>", click_info)
     canvas.tag_bind(avatar_id, "<Button-1>", lambda e: show_frame(frames, "avatar"))
     canvas.tag_bind(characters_id, "<Button-1>", lambda e: show_frame(frames, "choise"))
     canvas.tag_bind(start_id, "<Button-1>", click_empezar)
     
+    #Reajustar elementos del canvas
     def resize_btns(event):
         center_x = event.width * 0.5
         center_y = event.height * 0.5
@@ -124,8 +130,7 @@ def create_main_screen(container, frames):
         # Entrada invalida
         canvas.coords(L_invalida_id, center_x, center_y * 1.625)
 
-
-
+    #Cuando se produce un cambio en la pantalla se llama la funcion resize_btns
     canvas.bind("<Configure>", resize_btns, add="+")
 
 
@@ -146,6 +151,7 @@ def create_lobby_screen(container, frames):
     nombre = nombreG
     avatar = avatarElegidoG
 
+    #Se guardan las ID del los personajes elegidos
     def selectC(i):
         if i == 3:
             return
@@ -163,10 +169,6 @@ def create_lobby_screen(container, frames):
     #nombre
     L_nombre = Label(canvas, font=('Agency FB',20), fg="black", text=nombre)
     L_nombre_id = canvas.create_window(0, 0, anchor="center", window=L_nombre)
-  
-    #boton info
-    btn_info_img = cargar_img("buttons","info.png", size=(100, 100))
-    info_id = canvas.create_image(0 , 0, image=btn_info_img)
     
     # boton mapa
     btn_mapa_img = cargar_img("buttons","map_btn.png", size=(200, 120))
@@ -177,16 +179,15 @@ def create_lobby_screen(container, frames):
     regresar_id = canvas.create_image(0 , 0, image=btn_regresar_img, anchor="center")
 
 
-    canvas.images = [btn_info_img, btn_regresar_img, btn_mapa_img, avatar_img]
+    canvas.images = [btn_regresar_img, btn_mapa_img, avatar_img]
 
     #img avatar
     char_ids = []
     
-
+    #Cargar imagenes de los personajes elegidos
     def crear_char(i):
         if(i==3):      #caso base
             return
-
 
         #boton regresar
         btn_char_img = cargar_img("characters",f"c_{select_char[i]+1:03}.png", size=(230, 230))
@@ -201,21 +202,12 @@ def create_lobby_screen(container, frames):
     
     crear_char(0)
 
-    def click_info(event):
-        print("info presionado")
-
-    canvas.tag_bind(info_id, "<Button-1>", click_info)
+    
+    #Eventos click del mapa o regresar
     canvas.tag_bind(mapa_id, "<Button-1>", lambda e: show_frame(frames, "map"))
     canvas.tag_bind(regresar_id, "<Button-1>", lambda e: show_frame(frames, "main"))
 
-
-
-
-
-
-    
-
-
+    #Reajustar los elementos del canvas
     def resize_btns(event):
         center_x = event.width * 0.5
         center_y = event.height * 0.5
@@ -232,9 +224,6 @@ def create_lobby_screen(container, frames):
 
         # boton mapa
         canvas.coords(mapa_id, center_x * 1.75, center_y * 1.75)
-
-        # boton info 
-        canvas.coords(info_id, event.width * 0.95, event.height * 0.08)
         
         # boton regresar
         canvas.coords(regresar_id, center_x * 0.25, center_y * 1.75)
@@ -245,21 +234,56 @@ def create_lobby_screen(container, frames):
         # Imagen Avatar
         canvas.coords(avatar_id, event.width * 0.01, center_y * 0.25)
 
-
-
-
-
+    #Cuando se produce un cambio en la pantalla se llama la funcion resize_btns
     canvas.bind("<Configure>", resize_btns, add="+")
 
 
 
+def create_info_screen(container, frames):
+    frame = Frame(container)
+    frames["info"] = frame
+    frame.place(relwidth=1, relheight=1)
+    canvas = Canvas(frame)
+    canvas.pack(fill="both", expand=True)
+    setup_bg(canvas, "main_bg.png")
 
-    
 
+    # Texto About
+    about = """Instituto Tecnologico de Costa Rica
+    Computer Engineering
+    Tutorías taller de programación
+    *AI Assited
+    Ejemplo de música en Windows
+    Juego destrucción de misiles
+    Fecha de emisión: 05/03/2018
+    Ultima modificación: 26/03/2026
+    Version: 2.0.0
+    """
+    about_label = Label(canvas, text=about, font=('Agency FB',16), bg='#78b7e8', fg='white', borderwidth=10, justify='center', anchor="center")
 
+    about_id = canvas.create_window(0, 0, window=about_label)
 
+    # boton info
+    btn_info_img = cargar_img("buttons","info.png", size=(100, 100))
+    info_id = canvas.create_image(0 , 0, image=btn_info_img)
 
+    canvas.images = btn_info_img
 
+    #Acciones del evento click
+    canvas.tag_bind(info_id, "<Button-1>", lambda e: show_frame(frames, helpers.back_info))
 
+    #Reajustar elementos del canvas
+    def resize_btns(event):
+        center_x = event.width * 0.5
+        center_y = event.height * 0.5
 
+        # About
+        canvas.coords(about_id, center_x, center_y)
+
+        # info 
+        canvas.coords(info_id, event.width * 0.95, event.height * 0.08)
+        
+
+    #Cuando se produce un cambio en la pantalla se llama la funcion resize_btns
+    canvas.bind("<Configure>", resize_btns, add="+")
 

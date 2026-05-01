@@ -1,3 +1,4 @@
+#Archivo map_fight_area
 from tkinter import *
 from utils.helpers import cargar_img, setup_bg, show_frame, escribir_datos
 from gui.character_select import create_character_select_screen
@@ -5,51 +6,75 @@ import utils.Fight as Fight
 import utils.helpers as helpers
 
 def create_map_screen(container, frames):
+    global lugar_id, Mcanvas
     frame = Frame(container)
     frames["map"] = frame
     frame.place(relwidth=1, relheight=1)
-    canvas = Canvas(frame)
-    canvas.pack(fill="both", expand=True)
-    setup_bg(canvas, "map_bg.png")
 
-    select_pl_img = cargar_img("buttons","select_pl_btn.png", size=(120, 100))
-    lugar1_id = canvas.create_image(0, 0, anchor="center", image=select_pl_img)
-    lugar2_id = canvas.create_image(0, 0, anchor="center", image=select_pl_img)
-    lugar3_id = canvas.create_image(0, 0, anchor="center", image=select_pl_img)
-    lugar4_id = canvas.create_image(0, 0, anchor="center", image=select_pl_img)
-    lugar5_id = canvas.create_image(0, 0, anchor="center", image=select_pl_img)
+    Mcanvas = Canvas(frame)
+    Mcanvas.pack(fill="both", expand=True)
 
+    setup_bg(Mcanvas, "map_bg.png")
+
+    NivelG = helpers.NivelG
+
+    # Imagen del botón
+    select_pl_img = cargar_img("buttons", "select_pl_btn.png", size=(120, 100))
     
 
+    lugar_id = Mcanvas.create_image(0, 0, anchor="center", image=select_pl_img)
+
+    # Guardar referencia de la imagen (importante)
+    Mcanvas.images = [select_pl_img]
+
+    # Acción al hacer click
     def click():
         create_choose_screen(container, frames)
         show_frame(frames, "choose")
 
+    Mcanvas.tag_bind(lugar_id, "<Button-1>", lambda e: click())
 
+    # Posiciones de los niveles (en orden)
+    posiciones = [
+        (0.30, 1.4),
+        (0.69, 1.12),
+        (1.1, 1),
+        (1.456, 0.875),
+        (1.79, 0.46)
+    ]
 
-    canvas.tag_bind(lugar1_id, "<Button-1>",lambda e: click())
-    canvas.tag_bind(lugar2_id, "<Button-1>",lambda e: click())
-    canvas.tag_bind(lugar3_id, "<Button-1>",lambda e: click())
-    canvas.tag_bind(lugar4_id, "<Button-1>",lambda e: click())
-    canvas.tag_bind(lugar5_id, "<Button-1>",lambda e: click())
-
-    canvas.images = select_pl_img
-
-    #canvas.tag_bind(avatar1_id, "<Button-1>", lambda e: click_avatar(e, 1))
-
+    # Ajuste dinámico al tamaño de pantalla
     def resize_btns(event):
-        x = event.width*0.5
-        y = event.height*0.5
+        x = event.width * 0.5
+        y = event.height * 0.5
+        
+        px, py = posiciones[NivelG - 1]
+        Mcanvas.coords(lugar_id, x * px, y * py)
 
- 
-        canvas.coords(lugar1_id, x*0.30, y*1.4) #
-        canvas.coords(lugar2_id, x*0.69, y*1.12) #
-        canvas.coords(lugar3_id, x*1.1, y) #
-        canvas.coords(lugar4_id, x*1.456, y*0.875) #
-        canvas.coords(lugar5_id, x*1.79, y*0.46) #
+    Mcanvas.bind("<Configure>", resize_btns, add="+")
 
 
-    canvas.bind("<Configure>", resize_btns, add="+")
+def map_update():
+    global lugar_id, Mcanvas
+    posiciones = [
+        (0.30, 1.4),
+        (0.69, 1.12),
+        (1.1, 1),
+        (1.456, 0.875),
+        (1.79, 0.46)
+    ]
+
+    # Ajuste dinámico al tamaño de pantalla
+    
+    x = canvasC.winfo_width()
+    y = canvasC.winfo_height()
+
+    x = x*0.5
+    y = y*0.5
+
+    px, py = posiciones[helpers.NivelG - 1]
+    Mcanvas.coords(lugar_id, x * px, y * py)
+
 
 global char_ids, canvasC, CharEn_id, CharPl_id, canvasF
 
@@ -90,9 +115,8 @@ def create_choose_screen(container, frames):
 
     opciones(Fight.equipo_j)
 
-    # =========================
+    
     # EVENTOS
-    # =========================
     def click_personaje(event, i):
         nonlocal char_select
 
@@ -112,9 +136,9 @@ def create_choose_screen(container, frames):
         elif i == 2:
             canvasC.coords(cuadrado_id, x*1.5, y)
         elif i == 3:
-            canvasC.coords(cuadrado_id, x/3, y*1.5)
-        elif i == 4:
             canvasC.coords(cuadrado_id, x*2/3, y*1.5)
+        elif i == 4:
+            canvasC.coords(cuadrado_id, x*4/3, y*1.5)
 
     def click_select(event):
         if char_select == -1:
@@ -124,7 +148,7 @@ def create_choose_screen(container, frames):
         # inicia el combate con el personaje elegido
         create_fight_screen(container, frames)
         Fight.accion_cambiar(char_select)
-        cargar_sprites()
+        cargar_imagenes()
         show_frame(frames, "fight")
 
    
@@ -145,8 +169,8 @@ def create_choose_screen(container, frames):
         canvasC.coords(char1_id, x*0.5, y)
         canvasC.coords(char2_id, x, y)
         canvasC.coords(char3_id, x*1.5, y)
-        canvasC.coords(char4_id, x/3, y*1.5)
-        canvasC.coords(char5_id, x*2/3, y*1.5)
+        canvasC.coords(char4_id, x*2/3, y*1.5)
+        canvasC.coords(char5_id, x*4/3, y*1.5)
 
         # Mantener selección al redimensionar
         if char_select == 0:
@@ -156,9 +180,9 @@ def create_choose_screen(container, frames):
         elif char_select == 2:
             canvasC.coords(cuadrado_id, x*1.5, y)
         elif char_select == 3:
-            canvasC.coords(cuadrado_id, x/3, y*1.5)
-        elif char_select == 4:
             canvasC.coords(cuadrado_id, x*2/3, y*1.5)
+        elif char_select == 4:
+            canvasC.coords(cuadrado_id, x*4/3, y*1.5)
 
         # Botón seleccionar
         canvasC.coords(select_id, x * 1.75, y * 1.75)
@@ -190,7 +214,8 @@ def opciones(lista, n=0):
 
 
 def create_fight_screen(container, frames):
-    global CharEn_id, CharPl_id, canvasF
+    global CharEn_id, CharPl_id, IconEn_id, IconPL_id, canvasF, LabelV_En, LabelV_PL, Label_damage_id, framesG
+    framesG = frames
     frame = Frame(container)
     frames["fight"] = frame
     frame.place(relwidth=1, relheight=1)
@@ -211,12 +236,27 @@ def create_fight_screen(container, frames):
     #cargar img al canvas
     canvasF.images = [cambiar_img, atacar_img]
 
-     #Personaje jugador
+    #Personaje jugador
     CharPl_id = canvasF.create_image(0, 0, anchor="s", image="")
 
     #Personaje Maquina 
     CharEn_id = canvasF.create_image(0, 0, anchor="s", image="")
-    cargar_sprites()
+
+    #Personaje jugador Icono
+    IconPL_id = canvasF.create_image(0, 0, anchor="center", image="")
+
+    #Personaje Maquina Icono
+    IconEn_id = canvasF.create_image(0, 0, anchor="center", image="")
+
+    #Vida Jugador
+    LabelV_PL = Label(canvasF, text="999", font=('Agency FB',20), bg="#174364", fg='white', borderwidth=10, justify='center', anchor="center")
+
+    #Vida Maquina
+    LabelV_En = Label(canvasF, text="999", font=('Agency FB',20), bg="#174364", fg='white', borderwidth=10, justify='center', anchor="center")
+
+    #Label Daño
+    Label_damage_id = canvasF.create_text(0, 0, text="", font=('Agency FB', 60), fill="white", anchor="center")
+
 
     #click atacar
     def click_atacar():
@@ -232,7 +272,7 @@ def create_fight_screen(container, frames):
     canvasF.tag_bind(atacar_id, "<Button-1>", lambda e: click_atacar())
 
     
-    #resize
+    #Reajuste elementos del Canvas
     def resize_btns(event):
         x = event.width*0.5
         y = event.height*0.5
@@ -243,20 +283,87 @@ def create_fight_screen(container, frames):
         canvasF.coords(cambiar_id, x * 0.75, y*1.8)
         canvasF.coords(atacar_id, x * 1.25, y*1.8)
 
+        canvasF.coords(IconPL_id, x * 0.1, y*0.2)
+        canvasF.coords(IconEn_id, x * 1.9, y*0.2)
+
+        LabelV_PL.place(x=x*0.2, y=y*0.15)
+        LabelV_En.place(x=x*1.7, y=y*0.15)
+
+        canvasF.coords(Label_damage_id, x, y)
 
     canvasF.bind("<Configure>", resize_btns, add="+")
 
-def cargar_sprites():
-    global CharEn_id, CharPl_id, canvasF
+
+#actualizar informacion de la pantalla
+def cargar_imagenes():
+    global CharEn_id, CharPl_id, IconPL_id, IconEn_id, canvasF, LabelV_En, LabelV_PL
     CharEn_img = cargar_img("models", f"e_{Fight.equipo_m[Fight.idx_m]['id']:03}.png", size=(230, 450))
     CharPL_img = cargar_img("models", f"c_{Fight.equipo_j[Fight.idx_j]['id']:03}.png", size=(230, 450))
+
+    Icon_En_img = cargar_img("characters", f"c_{Fight.equipo_m[Fight.idx_m]['id']:03}.png", size=(100, 100))
+    Icon_PL_img = cargar_img("characters", f"c_{Fight.equipo_j[Fight.idx_j]['id']:03}.png", size=(100, 100))
+
+    LabelV_PL.config(text=f"Vida: {Fight.equipo_j[Fight.idx_j]['vida']}")
+    LabelV_En.config(text=f"Vida: {Fight.equipo_m[Fight.idx_m]['vida']}")
+
     canvasF.images.append(CharEn_img)
     canvasF.images.append(CharPL_img)
+    canvasF.images.append(Icon_En_img)
+    canvasF.images.append(Icon_PL_img)
     canvasF.itemconfig(CharEn_id, image=CharEn_img)
     canvasF.itemconfig(CharPl_id, image=CharPL_img)
+    canvasF.itemconfig(IconPL_id, image=Icon_PL_img)
+    canvasF.itemconfig(IconEn_id, image=Icon_En_img)
 
-    return 
+#Mostrar Label con el daño 
+def mostrar_daño(dmg, on_finish=None):
+    global Label_damage_id, canvasF
+    canvasF.itemconfig(Label_damage_id, text=str(dmg))
+    x, y = canvasF.coords(Label_damage_id)
 
+    def subir(step=0):
+        if step > 10:
+            canvasF.itemconfig(Label_damage_id, text="")
+            yM = canvasF.winfo_height()
+            yM = yM*0.5
 
+            #reset posicion
+            canvasF.coords(Label_damage_id, x, yM)
+
+            #llamada de regreso
+            if on_finish:
+                on_finish()
+            
+            return
+        canvasF.coords(Label_damage_id, x, y - step * 5)
+        canvasF.after(50, lambda: subir(step + 0.25))
+    subir()
     
 
+#funcion fin de la batalla
+def mostrar_fin(ganador):
+    global Label_damage_id, canvasF, framesG
+
+    canvasF.itemconfig(Label_damage_id, text=f"¡{ganador} gana!")
+    x, y = canvasF.coords(Label_damage_id)
+
+    def subir(step=0):
+        if step > 10:
+            canvasF.itemconfig(Label_damage_id, text="")
+            yM = canvasF.winfo_height()
+            yM = yM*0.5
+
+            canvasF.coords(Label_damage_id, x, yM)
+            
+            map_update()
+            show_frame(framesG, "map")
+
+            return
+        canvasF.coords(Label_damage_id, x, y - step * 5)
+        canvasF.after(50, lambda: subir(step + 0.25))
+    subir()
+
+#funcion de espera
+def sleep(time, onfinish=None):
+    global canvasF
+    canvasF.after(time, lambda: onfinish())

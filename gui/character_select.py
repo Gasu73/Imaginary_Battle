@@ -1,6 +1,7 @@
 from tkinter import *
 from utils.helpers import cargar_img, setup_bg, show_frame, escribir_datos, charactersDataG
-import csv
+import utils.helpers as helpers
+
 
 def create_character_select_screen(container, frames):
     frame = Frame(container)
@@ -49,7 +50,7 @@ def create_character_select_screen(container, frames):
     mini_photos = []  # guardar referencias de imágenes miniatura
     char_select = []  # personajes seleccionados
 
-# boton seleccionar
+    #boton seleccionar
     select_id = canvas.create_image(0 , 0, image="", anchor="s")
     
     def clic_select(event):
@@ -67,14 +68,17 @@ def create_character_select_screen(container, frames):
             escribir_datos("p", char_select)
 
             return
-        
-
-        
 
 
     canvas.images = [btn_prev_img, btn_info_img, btn_notselect_img, btn_remove_img, btn_notselect_img]
 
+    def click_info(event):
+        helpers.back_info = "choise"
+        show_frame(frames, "info")
+
+    #Acciones del evento click
     canvas.tag_bind(prev_id, "<Button-1>", lambda e: show_frame(frames, "main"))
+    canvas.tag_bind(info_id, "<Button-1>", click_info)
     canvas.tag_bind(select_id, "<Button-1>", clic_select)
 
 
