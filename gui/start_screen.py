@@ -250,14 +250,13 @@ def create_info_screen(container, frames):
 
     # Texto About
     about = """Instituto Tecnologico de Costa Rica
-    Computer Engineering
-    Tutorías taller de programación
-    *AI Assited
-    Ejemplo de música en Windows
-    Juego destrucción de misiles
-    Fecha de emisión: 05/03/2018
-    Ultima modificación: 26/03/2026
-    Version: 2.0.0
+    Ingenieria en Computadores
+    Introduccion A La Programación
+    Kevin Hernández Romero
+    Proyecto Imaginary Battle
+    Fecha de emisión: 01/05/2026
+    Ultima modificación: 01/05/2026
+    Version: 1.0.0
     """
     about_label = Label(canvas, text=about, font=('Agency FB',16), bg='#78b7e8', fg='white', borderwidth=10, justify='center', anchor="center")
 

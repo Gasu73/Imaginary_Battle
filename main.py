@@ -1,7 +1,9 @@
 from tkinter import *
 from gui.start_screen import create_main_screen, create_info_screen
 from gui.character_select import create_character_select_screen, create_avatar_select_screen
+from gui.map_fight_area import fin_juego
 from utils.helpers import show_frame, extraer_personajes
+import winsound
 
 root = Tk()
 root.title("Imaginary_Battle")
@@ -20,8 +22,13 @@ create_character_select_screen(container, frames)
 create_avatar_select_screen(container, frames)
 create_main_screen(container, frames)
 create_info_screen(container, frames)
+fin_juego(container, frames)
 
+
+winsound.PlaySound(
+    "assets/musica.wav",
+    winsound.SND_ASYNC | winsound.SND_LOOP
+)
 
 show_frame(frames, "main")
 root.mainloop()
-

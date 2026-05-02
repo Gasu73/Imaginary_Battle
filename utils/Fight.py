@@ -58,7 +58,7 @@ def fight_start():
 
 def capturar_personaje(equipo_origen, equipo_destino, idx):
     p = equipo_origen[idx]
-    p["vida"] = charactersDataG[p["id"]]["vida"]
+    p["vida"] = charactersDataG[p["id"]-1]["vida"]
     equipo_destino.append(p)
     equipo_origen.pop(idx)
 
@@ -77,6 +77,13 @@ def atacar(equipo_a, idx_a, equipo_d, idx_d):
 
     #calculos de daño y vida restante
     daño = atacante["ataque"] - defensor["defensa"]
+
+    #critico
+    critico = random.random() < 0.005
+    if critico:
+        daño = daño*2
+
+
     if daño < 1:
         daño = 1
 
@@ -97,6 +104,8 @@ def atacar(equipo_a, idx_a, equipo_d, idx_d):
 
         #Personaje Muere
         if defensor["vida"] == 0:
+            if E_atacante == "Jugador":
+                helpers.score += 1
 
             #El equipo contrario adquiere el personaje muerto
             capturar_personaje(equipo_d, equipo_a, idx_d)
@@ -127,7 +136,7 @@ def atacar(equipo_a, idx_a, equipo_d, idx_d):
             turno_jugador = True
 
     #Animacion de daño
-    map_fight_area.mostrar_daño(daño, despues_de_daño)
+    map_fight_area.mostrar_daño(daño, critico, despues_de_daño)
 
 
 
@@ -182,4 +191,4 @@ def turno_maquina():
     def on_finish():
         atacar(equipo_m, idx_m, equipo_j, idx_j)
 
-    mf.sleep(2000, on_finish) #funcion de espera
+    mf.sleep(1000, on_finish) #funcion de espera

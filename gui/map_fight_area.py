@@ -18,6 +18,7 @@ def create_map_screen(container, frames):
 
     NivelG = helpers.NivelG
 
+
     # Imagen del botón
     select_pl_img = cargar_img("buttons", "select_pl_btn.png", size=(120, 100))
     
@@ -63,7 +64,8 @@ def map_update():
         (1.456, 0.875),
         (1.79, 0.46)
     ]
-
+    #Imagen Ganador
+    
     # Ajuste dinámico al tamaño de pantalla
     
     x = canvasC.winfo_width()
@@ -74,6 +76,7 @@ def map_update():
 
     px, py = posiciones[helpers.NivelG - 1]
     Mcanvas.coords(lugar_id, x * px, y * py)
+
 
 
 global char_ids, canvasC, CharEn_id, CharPl_id, canvasF
@@ -214,7 +217,7 @@ def opciones(lista, n=0):
 
 
 def create_fight_screen(container, frames):
-    global CharEn_id, CharPl_id, IconEn_id, IconPL_id, canvasF, LabelV_En, LabelV_PL, Label_damage_id, framesG
+    global CharEn_id, CharPl_id, IconEn_id, IconPL_id, canvasF, LabelV_En, LabelV_PL, Label_damage_id, framesG, Label_score
     framesG = frames
     frame = Frame(container)
     frames["fight"] = frame
@@ -257,6 +260,9 @@ def create_fight_screen(container, frames):
     #Label Daño
     Label_damage_id = canvasF.create_text(0, 0, text="", font=('Agency FB', 60), fill="white", anchor="center")
 
+    #Label Score
+    Label_score = Label(canvasF, text="", font=('Agency FB',20), bg="#174364", fg='white', borderwidth=10, justify='center', anchor="center")
+
 
     #click atacar
     def click_atacar():
@@ -289,6 +295,8 @@ def create_fight_screen(container, frames):
         LabelV_PL.place(x=x*0.2, y=y*0.15)
         LabelV_En.place(x=x*1.7, y=y*0.15)
 
+        Label_score.place(x=x, y=y*0.15)
+
         canvasF.coords(Label_damage_id, x, y)
 
     canvasF.bind("<Configure>", resize_btns, add="+")
@@ -296,7 +304,7 @@ def create_fight_screen(container, frames):
 
 #actualizar informacion de la pantalla
 def cargar_imagenes():
-    global CharEn_id, CharPl_id, IconPL_id, IconEn_id, canvasF, LabelV_En, LabelV_PL
+    global CharEn_id, CharPl_id, IconPL_id, IconEn_id, canvasF, LabelV_En, LabelV_PL, Label_score
     CharEn_img = cargar_img("models", f"e_{Fight.equipo_m[Fight.idx_m]['id']:03}.png", size=(230, 450))
     CharPL_img = cargar_img("models", f"c_{Fight.equipo_j[Fight.idx_j]['id']:03}.png", size=(230, 450))
 
@@ -305,6 +313,10 @@ def cargar_imagenes():
 
     LabelV_PL.config(text=f"Vida: {Fight.equipo_j[Fight.idx_j]['vida']}")
     LabelV_En.config(text=f"Vida: {Fight.equipo_m[Fight.idx_m]['vida']}")
+
+    Label_score.config(text=f"Puntaje: {helpers.score}")
+
+
 
     canvasF.images.append(CharEn_img)
     canvasF.images.append(CharPL_img)
@@ -316,14 +328,18 @@ def cargar_imagenes():
     canvasF.itemconfig(IconEn_id, image=Icon_En_img)
 
 #Mostrar Label con el daño 
-def mostrar_daño(dmg, on_finish=None):
+def mostrar_daño(dmg, critico, on_finish=None):
     global Label_damage_id, canvasF
     canvasF.itemconfig(Label_damage_id, text=str(dmg))
+    if critico:
+        canvasF.itemconfig(Label_damage_id, fill = "red")
+        
     x, y = canvasF.coords(Label_damage_id)
 
     def subir(step=0):
         if step > 10:
             canvasF.itemconfig(Label_damage_id, text="")
+            canvasF.itemconfig(Label_damage_id, fill = "white")
             yM = canvasF.winfo_height()
             yM = yM*0.5
 
@@ -336,13 +352,49 @@ def mostrar_daño(dmg, on_finish=None):
             
             return
         canvasF.coords(Label_damage_id, x, y - step * 5)
-        canvasF.after(50, lambda: subir(step + 0.25))
+        canvasF.after(50, lambda: subir(step + 0.75))
     subir()
     
 
+#Pantalla fin del juego
+def fin_juego(container, frames):
+    global about_id, Fcanvas
+    frame = Frame(container)
+    frames["fin"] = frame
+    frame.place(relwidth=1, relheight=1)
+
+    Fcanvas = Canvas(frame)
+    Fcanvas.pack(fill="both", expand=True)
+
+    setup_bg(Fcanvas, "lobby_bg.png")
+
+    
+    about_id = Fcanvas.create_text(
+        0, 0,
+        text="",
+        font=('Agency FB', 50),
+        fill='white',
+        anchor="center",
+        justify="center"
+    )
+
+    def resize_btns(event):
+        center_x = event.width * 0.5
+        center_y = event.height * 0.5
+
+        # About
+        Fcanvas.coords(about_id, center_x, center_y)
+
+
+    #Cuando se produce un cambio en la pantalla se llama la funcion resize_btns
+    Fcanvas.bind("<Configure>", resize_btns, add="+")
+
+
+
+
 #funcion fin de la batalla
 def mostrar_fin(ganador):
-    global Label_damage_id, canvasF, framesG
+    global Label_damage_id, canvasF, framesG, about_id
 
     canvasF.itemconfig(Label_damage_id, text=f"¡{ganador} gana!")
     x, y = canvasF.coords(Label_damage_id)
@@ -354,10 +406,15 @@ def mostrar_fin(ganador):
             yM = yM*0.5
 
             canvasF.coords(Label_damage_id, x, yM)
-            
-            map_update()
-            show_frame(framesG, "map")
-
+            if helpers.NivelG <= 5:
+                map_update()
+                show_frame(framesG, "map")
+            else:
+                about = f"""Felicidades {helpers.nombreG}
+            Terminaste el juego con una puntuacion de {helpers.score}
+            """
+                Fcanvas.itemconfig(about_id, text= about)
+                show_frame(framesG, "fin")
             return
         canvasF.coords(Label_damage_id, x, y - step * 5)
         canvasF.after(50, lambda: subir(step + 0.25))
@@ -367,3 +424,7 @@ def mostrar_fin(ganador):
 def sleep(time, onfinish=None):
     global canvasF
     canvasF.after(time, lambda: onfinish())
+
+
+
+
